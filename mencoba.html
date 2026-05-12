@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:Arial, sans-serif;
+    }
+
+    body{
+      height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      overflow:hidden;
+      position:relative;
+      background:black;
+    }
+
+    /* Background Video */
+    .bg{
+      position:absolute;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      z-index:-2;
+    }
+
+    /* Efek gelap */
+    .overlay{
+      position:absolute;
+      width:100%;
+      height:100%;
+      background:rgba(0,0,0,0.6);
+      backdrop-filter:blur(3px);
+      z-index:-1;
+    }
+
+    .login-box{
+      width:370px;
+      padding:40px;
+      border-radius:25px;
+
+      background:rgba(0,0,0,0.65);
+
+      border:1px solid rgba(255,255,255,0.08);
+
+      backdrop-filter:blur(15px);
+
+      box-shadow:
+      0 0 25px rgba(0,0,0,0.8),
+      0 0 50px rgba(255,255,255,0.05);
+
+      text-align:center;
+      color:white;
+
+      animation:float 3s ease-in-out infinite;
+    }
+
+    @keyframes float{
+      0%{transform:translateY(0);}
+      50%{transform:translateY(-10px);}
+      100%{transform:translateY(0);}
+    }
+
+    /* LOGO */
+    .logo{
+      width:90px;
+      height:90px;
+      margin:auto;
+      margin-bottom:20px;
+      border-radius:50%;
+      overflow:hidden;
+      border:3px solid white;
+      box-shadow:0 0 20px rgba(255,255,255,0.2);
+    }
+
+    .logo img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+
+    .title{
+      font-size:42px;
+      font-weight:bold;
+      margin-bottom:30px;
+      letter-spacing:3px;
+      color:white;
+      text-shadow:0 0 15px rgba(255,255,255,0.3);
+    }
+
+    .input-box{
+      margin-bottom:20px;
+    }
+
+    .input-box input{
+      width:100%;
+      padding:15px;
+      border:none;
+      outline:none;
+      border-radius:12px;
+
+      background:rgba(255,255,255,0.08);
+
+      color:white;
+      font-size:16px;
+    }
+
+    .input-box input::placeholder{
+      color:#bdbdbd;
+    }
+
+    .login-btn{
+      width:100%;
+      padding:15px;
+      border:none;
+      border-radius:12px;
+
+      background:linear-gradient(135deg,#222,#000);
+
+      color:white;
+
+      font-size:18px;
+      font-weight:bold;
+      cursor:pointer;
+      transition:0.3s;
+    }
+
+    .login-btn:hover{
+      transform:scale(1.05);
+      box-shadow:0 0 20px rgba(255,255,255,0.15);
+    }
+
+    .bottom-text{
+      margin-top:20px;
+      color:#bdbdbd;
+      font-size:14px;
+    }
+
+    .bottom-text span{
+      color:white;
+      font-weight:bold;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Video -->
+  <video class="bg" autoplay muted loop>
+    <source src="neeha.mp4" type="video/mp4">
+  </video>
+
+  <div class="overlay"></div>
+
+  <div class="login-box">
+
+    <!-- Logo -->
+    <div class="logo">
+      <img src="logoN.png">
+    </div>
+
+    <div class="title">LOGIN</div>
+
+    <div class="input-box">
+      <input type="text" placeholder="Username">
+    </div>
+
+    <div class="input-box">
+      <input type="password" placeholder="Password">
+    </div>
+
+    <button class="login-btn">MASUK</button>
+
+    <div class="bottom-text">
+      by <span>neeha</span>
+    </div>
+
+  </div>
+
+</body>
+</html>
