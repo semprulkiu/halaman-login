@@ -345,11 +345,11 @@ reader.onload = function(e){
 
 const imageData = e.target.result;
 
-// tampil
+// tampil di web
 
 tambahGaleri(namaUser,imageData);
 
-// simpan storage
+// simpan local storage
 
 let dataLama =
 JSON.parse(localStorage.getItem("kenangan")) || [];
@@ -366,11 +366,17 @@ localStorage.setItem(
 JSON.stringify(dataLama)
 );
 
-// upload drive
+// upload ke drive
 
 fetch("https://script.google.com/macros/s/AKfycbzYwXFc5ArLqKo5tILACb2bj5b4i0cSnWJjh4bjhu3Ps8hGlG92wbfKPSuqx0eniY4x/exec",{
 
 method:"POST",
+
+mode:"no-cors",
+
+headers:{
+"Content-Type":"application/json"
+},
 
 body:JSON.stringify({
 
@@ -379,9 +385,19 @@ file:imageData
 
 })
 
-});
+})
+.then(() => {
 
-alert("Upload berhasil ⚡");
+alert("📢 Upload berhasil masuk Google Drive!");
+
+})
+.catch(err => {
+
+console.log(err);
+
+alert("Upload gagal!");
+
+});
 
 }
 
