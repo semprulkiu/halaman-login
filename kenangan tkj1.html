@@ -368,6 +368,47 @@ JSON.stringify(dataLama)
 
 // upload ke drive
 
+function uploadFile(){
+
+const file =
+document.getElementById("fileInput").files[0];
+
+if(!file){
+
+alert("Pilih foto dulu!");
+return;
+
+}
+
+const reader = new FileReader();
+
+reader.onload = function(e){
+
+const imageData = e.target.result;
+
+// tampil di web
+
+tambahGaleri(namaUser,imageData);
+
+// simpan local storage
+
+let dataLama =
+JSON.parse(localStorage.getItem("kenangan")) || [];
+
+dataLama.unshift({
+
+nama:namaUser,
+foto:imageData
+
+});
+
+localStorage.setItem(
+"kenangan",
+JSON.stringify(dataLama)
+);
+
+// upload ke Google Drive
+
 fetch("https://script.google.com/macros/s/AKfycbzYwXFc5ArLqKo5tILACb2bj5b4i0cSnWJjh4bjhu3Ps8hGlG92wbfKPSuqx0eniY4x/exec",{
 
 method:"POST",
@@ -399,12 +440,11 @@ alert("Upload gagal!");
 
 });
 
-}
+}; // <-- penting
 
 reader.readAsDataURL(file);
 
 }
-
 </script>
 
 </body>
