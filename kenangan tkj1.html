@@ -1,473 +1,145 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kenangan TKJ 1</title>
+<script>
 
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+let namaUser = "";
 
-  <style>
+// LOGIN
 
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-      font-family:'Poppins',sans-serif;
-    }
+function login(){
 
-    body{
-      background:#0f172a;
-      color:white;
-      overflow-x:hidden;
-    }
+  let user = document.getElementById("username").value;
+  let pass = document.getElementById("password").value;
 
-    /* LOGIN */
+  if(user !== "" && pass === "tkj1"){
 
-    .login-page{
-      height:100vh;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      background:
-      linear-gradient(rgba(0,0,0,.7),rgba(0,0,0,.7)),
-      url('https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1920');
-      background-size:cover;
-      background-position:center;
-    }
+    namaUser = user;
 
-    .login-box{
-      width:360px;
-      padding:40px;
-      border-radius:20px;
-      background:rgba(255,255,255,.08);
-      backdrop-filter:blur(12px);
-      border:1px solid rgba(255,255,255,.15);
-      box-shadow:0 0 25px rgba(0,255,255,.3);
-    }
+    document.getElementById("loginPage").style.display = "none";
+    document.getElementById("website").style.display = "block";
 
-    .logo{
-      text-align:center;
-      font-size:60px;
-      margin-bottom:10px;
-    }
+    document.getElementById("welcomeText").innerHTML =
+    "Selamat datang <b style='color:#00ffff'>" +
+    namaUser +
+    "</b> di website kenangan TKJ ⚡";
 
-    h2{
-      text-align:center;
-      color:#00ffff;
-      margin-bottom:10px;
-    }
+  }else{
 
-    .sub{
-      text-align:center;
-      color:#ccc;
-      margin-bottom:25px;
-      font-size:14px;
-    }
+    document.getElementById("error").style.display = "block";
 
-    .input-box{
-      margin-bottom:20px;
-    }
+  }
 
-    .input-box input{
-      width:100%;
-      padding:14px;
-      border:none;
-      border-radius:12px;
-      background:rgba(255,255,255,.1);
-      color:white;
-      outline:none;
-      font-size:15px;
-    }
+}
 
-    .btn{
-      width:100%;
-      padding:14px;
-      border:none;
-      border-radius:12px;
-      background:linear-gradient(45deg,#00ffff,#0066ff);
-      color:white;
-      font-weight:bold;
-      cursor:pointer;
-      transition:.3s;
-    }
+// TAMBAH FOTO KE GALERI
 
-    .btn:hover{
-      transform:scale(1.03);
-      box-shadow:0 0 15px #00ffff;
-    }
+function tambahGaleri(nama, foto){
 
-    .info{
-      text-align:center;
-      margin-top:15px;
-      color:#aaa;
-      font-size:13px;
-    }
+  const card = document.createElement("div");
 
-    .error{
-      text-align:center;
-      margin-top:10px;
-      color:red;
-      display:none;
-    }
+  card.classList.add("card");
 
-    /* WEBSITE */
+  card.innerHTML = `
+    <img src="${foto}">
 
-    .website{
-      display:none;
-    }
+    <div class="text">
 
-    nav{
-      width:100%;
-      background:#111827;
-      padding:15px 40px;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      position:sticky;
-      top:0;
-      z-index:100;
-    }
+      <h3>${nama}</h3>
 
-    nav h1{
-      color:#00ffff;
-    }
-
-    nav ul{
-      display:flex;
-      gap:20px;
-      list-style:none;
-    }
-
-    nav ul li a{
-      color:white;
-      text-decoration:none;
-      transition:.3s;
-    }
-
-    nav ul li a:hover{
-      color:#00ffff;
-    }
-
-    /* HERO */
-
-    .hero{
-      height:85vh;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      flex-direction:column;
-      text-align:center;
-      padding:20px;
-      background:
-      linear-gradient(rgba(0,0,0,.7),rgba(0,0,0,.7)),
-      url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1920');
-      background-size:cover;
-      background-position:center;
-    }
-
-    .hero h2{
-      font-size:55px;
-      margin-bottom:15px;
-    }
-
-    .hero p{
-      color:#ddd;
-      max-width:700px;
-    }
-
-    /* UPLOAD */
-
-    .upload-section{
-      padding:60px 20px;
-    }
-
-    .title{
-      text-align:center;
-      margin-bottom:30px;
-    }
-
-    .title h2{
-      font-size:40px;
-    }
-
-    .upload-box{
-      max-width:700px;
-      margin:auto;
-      background:#1e293b;
-      padding:25px;
-      border-radius:20px;
-      box-shadow:0 0 15px rgba(0,255,255,.1);
-    }
-
-    .upload-box input{
-      width:100%;
-      padding:14px;
-      margin-bottom:15px;
-      border:none;
-      border-radius:10px;
-      background:#0f172a;
-      color:white;
-    }
-
-    /* GALLERY */
-
-    .gallery{
-      padding:20px;
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-      gap:20px;
-    }
-
-    .card{
-      background:#1e293b;
-      border-radius:20px;
-      overflow:hidden;
-      transition:.3s;
-      box-shadow:0 0 10px rgba(0,0,0,.5);
-    }
-
-    .card:hover{
-      transform:translateY(-8px);
-      box-shadow:0 0 20px rgba(0,255,255,.3);
-    }
-
-    .card img{
-      width:100%;
-      height:220px;
-      object-fit:cover;
-    }
-
-    .text{
-      padding:15px;
-    }
-
-    .text h3{
-      color:#00ffff;
-      margin-bottom:10px;
-    }
-
-    footer{
-      background:#111827;
-      text-align:center;
-      padding:20px;
-      color:#888;
-      margin-top:30px;
-    }
-
-  </style>
-</head>
-<body>
-
-  <!-- LOGIN -->
-
-  <section class="login-page" id="loginPage">
-
-    <div class="login-box">
-
-      <div class="logo">💻</div>
-
-      <h2>LOGIN TKJ 1</h2>
-
-      <p class="sub">
-        Username bebas • Password : tkj1
-      </p>
-
-      <div class="input-box">
-        <input type="text" id="username" placeholder="Masukkan Nama">
-      </div>
-
-      <div class="input-box">
-        <input type="password" id="password" placeholder="Masukkan Password">
-      </div>
-
-      <button class="btn" onclick="login()">
-        MASUK
-      </button>
-
-      <div class="info">
-        Gunakan password : <b>tkj1</b>
-      </div>
-
-      <div class="error" id="error">
-        Password salah!
-      </div>
+      <p>Baru saja upload kenangan ⚡</p>
 
     </div>
+  `;
 
-  </section>
+  document.getElementById("gallery").prepend(card);
 
-  <!-- WEBSITE -->
+}
 
-  <section class="website" id="website">
+// LOAD FOTO SAAT REFRESH
 
-    <nav>
+window.onload = function(){
 
-      <h1>TKJ 1 ⚡</h1>
+  let data =
+    JSON.parse(localStorage.getItem("kenangan")) || [];
 
-      <ul>
-        <li><a href="#home">Beranda</a></li>
-        <li><a href="#upload">Upload</a></li>
-        <li><a href="#kenangan">Kenangan</a></li>
-      </ul>
+  data.forEach(item => {
 
-    </nav>
+    tambahGaleri(item.nama, item.foto);
 
-    <section class="hero" id="home">
+  });
 
-      <h2>KENANGAN TKJ 1</h2>
+}
 
-      <p id="welcomeText">
-        Selamat datang di website kenangan anak TKJ ⚡
-      </p>
+// UPLOAD FOTO
 
-    </section>
+function uploadFile(){
 
-    <!-- UPLOAD -->
+  const file = document.getElementById("fileInput").files[0];
 
-    <section class="upload-section" id="upload">
+  if(!file){
 
-      <div class="title">
-        <h2>UPLOAD KENANGAN</h2>
-      </div>
+    alert("Pilih foto dulu!");
+    return;
 
-      <div class="upload-box">
+  }
 
-        <input type="file" id="fileInput" accept="image/*">
+  const reader = new FileReader();
 
-        <button class="btn" onclick="uploadFile()">
-          Upload Sekarang
-        </button>
+  reader.onload = function(e){
 
-      </div>
+    const imageData = e.target.result;
 
-    </section>
+    // tampilkan di web
+    tambahGaleri(namaUser, imageData);
 
-    <!-- GALERI -->
+    // simpan local storage
+    let dataLama =
+      JSON.parse(localStorage.getItem("kenangan")) || [];
 
-    <section id="kenangan">
+    dataLama.unshift({
 
-      <div class="title">
-        <h2>GALERI KENANGAN</h2>
-      </div>
+      nama:namaUser,
+      foto:imageData
 
-      <div class="gallery" id="gallery">
+    });
 
-      </div>
+    localStorage.setItem(
+      "kenangan",
+      JSON.stringify(dataLama)
+    );
 
-    </section>
+    // upload ke Google Drive
 
-    <footer>
-      Made with ❤️ by TKJ 1
-    </footer>
+    fetch("https://script.google.com/macros/s/AKfycbzYwXFc5ArLqKo5tILACb2bj5b4i0cSnWJjh4bjhu3Ps8hGlG92wbfKPSuqx0eniY4x/exec",{
 
-  </section>
+      method:"POST",
 
-  <script>
+      body:JSON.stringify({
 
-    let namaUser = "";
+        nama:namaUser,
+        file:imageData
 
-    // LOGIN
+      })
 
-    function login(){
+    })
+    .then(res => res.text())
+    .then(data => {
 
-      let user = document.getElementById("username").value;
-      let pass = document.getElementById("password").value;
+      console.log(data);
 
-      if(user !== "" && pass === "tkj1"){
+      alert("📢 Upload berhasil masuk Google Drive!");
 
-        namaUser = user;
+    })
+    .catch(err => {
 
-        document.getElementById("loginPage").style.display = "none";
-        document.getElementById("website").style.display = "block";
+      console.log(err);
 
-        document.getElementById("welcomeText").innerHTML =
-        "Selamat datang <b style='color:#00ffff'>" +
-        namaUser +
-        "</b> di website kenangan TKJ ⚡";
+      alert("Upload gagal!");
 
-      }else{
+    });
 
-        document.getElementById("error").style.display = "block";
+  }
 
-      }
+  reader.readAsDataURL(file);
 
-    }
+}
 
-    // UPLOAD FOTO
-
-    function uploadFile(){
-
-      const file = document.getElementById("fileInput").files[0];
-
-      if(!file){
-
-        alert("Pilih foto dulu!");
-        return;
-
-      }
-
-      const reader = new FileReader();
-
-      reader.onload = function(e){
-
-        // tampilkan di web
-
-        const card = document.createElement("div");
-
-        card.classList.add("card");
-
-        card.innerHTML = `
-          <img src="${e.target.result}">
-
-          <div class="text">
-
-            <h3>${namaUser}</h3>
-
-            <p>Baru saja upload kenangan ⚡</p>
-
-          </div>
-        `;
-
-        document.getElementById("gallery").prepend(card);
-
-        // upload ke Google Drive
-
-        fetch("https://script.google.com/macros/s/AKfycbzYwXFc5ArLqKo5tILACb2bj5b4i0cSnWJjh4bjhu3Ps8hGlG92wbfKPSuqx0eniY4x/exec",{
-
-          method:"POST",
-
-          body:JSON.stringify({
-
-            nama:namaUser,
-            file:e.target.result
-
-          })
-
-        })
-        .then(res => res.text())
-        .then(data => {
-
-          console.log(data);
-
-          alert("📢 Upload berhasil masuk Google Drive!");
-
-        })
-        .catch(err => {
-
-          console.log(err);
-
-          alert("Upload gagal!");
-
-        });
-
-      }
-
-      reader.readAsDataURL(file);
-
-    }
-
-  </script>
-
-</body>
-</html>
+</script>
