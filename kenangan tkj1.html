@@ -301,8 +301,6 @@
 
   <section class="website" id="website">
 
-    <!-- NAVBAR -->
-
     <nav>
 
       <h1>TKJ 1 ⚡</h1>
@@ -314,8 +312,6 @@
       </ul>
 
     </nav>
-
-    <!-- HOME -->
 
     <section class="hero" id="home">
 
@@ -357,24 +353,6 @@
 
       <div class="gallery" id="gallery">
 
-        <div class="card">
-          <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200">
-
-          <div class="text">
-            <h3>Belajar Bareng</h3>
-            <p>Kenangan belajar dan bercanda bersama teman TKJ.</p>
-          </div>
-        </div>
-
-        <div class="card">
-          <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200">
-
-          <div class="text">
-            <h3>Praktik Lab</h3>
-            <p>Momen praktik komputer dan jaringan di sekolah.</p>
-          </div>
-        </div>
-
       </div>
 
     </section>
@@ -401,7 +379,6 @@
         namaUser = user;
 
         document.getElementById("loginPage").style.display = "none";
-
         document.getElementById("website").style.display = "block";
 
         document.getElementById("welcomeText").innerHTML =
@@ -434,6 +411,8 @@
 
       reader.onload = function(e){
 
+        // tampilkan di web
+
         const card = document.createElement("div");
 
         card.classList.add("card");
@@ -445,33 +424,42 @@
 
             <h3>${namaUser}</h3>
 
-            <p>
-              Baru saja upload kenangan ⚡
-            </p>
+            <p>Baru saja upload kenangan ⚡</p>
 
           </div>
         `;
 
         document.getElementById("gallery").prepend(card);
 
-        // NOTIFIKASI
+        // upload ke Google Drive
 
-        alert("📢 " + namaUser + " berhasil upload kenangan!");
+        fetch("https://script.google.com/macros/s/AKfycbzYwXFc5ArLqKo5tILACb2bj5b4i0cSnWJjh4bjhu3Ps8hGlG92wbfKPSuqx0eniY4x/exec",{
 
-        /*
-        ==========================================
-        TEMPAT GOOGLE DRIVE / DATABASE
-        ==========================================
-
-        fetch("LINK_APPS_SCRIPT_KAMU",{
           method:"POST",
+
           body:JSON.stringify({
+
             nama:namaUser,
             file:e.target.result
-          })
-        })
 
-        */
+          })
+
+        })
+        .then(res => res.text())
+        .then(data => {
+
+          console.log(data);
+
+          alert("📢 Upload berhasil masuk Google Drive!");
+
+        })
+        .catch(err => {
+
+          console.log(err);
+
+          alert("Upload gagal!");
+
+        });
 
       }
 
