@@ -98,8 +98,6 @@ body{
 nav{
   background:#111827;
   padding:15px 40px;
-  display:flex;
-  justify-content:space-between;
 }
 
 nav h1{
@@ -260,191 +258,148 @@ let namaUser = "";
 
 // LOGIN
 
-function login(){
+function login() {
 
-let user =
-document.getElementById("username").value;
+  let user = document.getElementById("username").value;
+  let pass = document.getElementById("password").value;
 
-let pass =
-document.getElementById("password").value;
+  if(user !== "" && pass === "tkj1") {
 
-if(user !== "" && pass === "tkj1"){
+    namaUser = user;
 
-namaUser = user;
+    document.getElementById("loginPage").style.display = "none";
+    document.getElementById("website").style.display = "block";
 
-document.getElementById("loginPage").style.display = "none";
+    document.getElementById("welcomeText").innerHTML =
+    "Selamat datang <b style='color:#00ffff'>" +
+    namaUser +
+    "</b>";
 
-document.getElementById("website").style.display = "block";
+  } else {
 
-document.getElementById("welcomeText").innerHTML =
-"Selamat datang <b style='color:#00ffff'>" +
-namaUser +
-"</b>";
+    document.getElementById("error").style.display = "block";
 
-}else{
-
-document.getElementById("error").style.display = "block";
-
-}
+  }
 
 }
 
 // TAMBAH GALERI
 
-function tambahGaleri(nama,foto){
+function tambahGaleri(nama, foto){
 
-const card = document.createElement("div");
+  const card = document.createElement("div");
 
-card.classList.add("card");
+  card.classList.add("card");
 
-card.innerHTML = `
-<img src="${foto}">
+  card.innerHTML = `
+    <img src="${foto}">
 
-<div class="text">
-<h3>${nama}</h3>
-<p>Upload kenangan ⚡</p>
-</div>
-`;
+    <div class="text">
+      <h3>${nama}</h3>
+      <p>Upload kenangan ⚡</p>
+    </div>
+  `;
 
-document.getElementById("gallery").prepend(card);
+  document.getElementById("gallery").prepend(card);
 
 }
 
-// LOAD STORAGE
+// LOAD DATA
 
 window.onload = function(){
 
-let data =
-JSON.parse(localStorage.getItem("kenangan")) || [];
+  let data =
+  JSON.parse(localStorage.getItem("kenangan")) || [];
 
-data.forEach(item => {
+  data.forEach(item => {
 
-tambahGaleri(item.nama,item.foto);
+    tambahGaleri(item.nama, item.foto);
 
-});
+  });
 
 }
 
-// UPLOAD
+// UPLOAD FOTO
 
 function uploadFile(){
 
-const file =
-document.getElementById("fileInput").files[0];
+  const file =
+  document.getElementById("fileInput").files[0];
 
-if(!file){
+  if(!file){
 
-alert("Pilih foto dulu!");
-return;
+    alert("Pilih foto dulu!");
+    return;
 
-}
+  }
 
-const reader = new FileReader();
+  const reader = new FileReader();
 
-reader.onload = function(e){
+  reader.onload = function(e){
 
-const imageData = e.target.result;
+    const imageData = e.target.result;
 
-// tampil di web
+    // tampil di website
 
-tambahGaleri(namaUser,imageData);
+    tambahGaleri(namaUser, imageData);
 
-// simpan local storage
+    // simpan local storage
 
-let dataLama =
-JSON.parse(localStorage.getItem("kenangan")) || [];
+    let dataLama =
+    JSON.parse(localStorage.getItem("kenangan")) || [];
 
-dataLama.unshift({
+    dataLama.unshift({
 
-nama:namaUser,
-foto:imageData
+      nama: namaUser,
+      foto: imageData
 
-});
+    });
 
-localStorage.setItem(
-"kenangan",
-JSON.stringify(dataLama)
-);
+    localStorage.setItem(
+      "kenangan",
+      JSON.stringify(dataLama)
+    );
 
-// upload ke drive
+    // upload ke Google Drive
 
-function uploadFile(){
+    fetch("https://script.google.com/macros/s/AKfycbzYwXFc5ArLqKo5tILACb2bj5b4i0cSnWJjh4bjhu3Ps8hGlG92wbfKPSuqx0eniY4x/exec", {
 
-const file =
-document.getElementById("fileInput").files[0];
+      method: "POST",
 
-if(!file){
+      headers: {
+        "Content-Type": "application/json"
+      },
 
-alert("Pilih foto dulu!");
-return;
+      body: JSON.stringify({
 
-}
+        nama: namaUser,
+        file: imageData
 
-const reader = new FileReader();
+      })
 
-reader.onload = function(e){
+    })
+    .then(response => response.text())
+    .then(data => {
 
-const imageData = e.target.result;
+      console.log(data);
 
-// tampil di web
+      alert("📢 Upload berhasil masuk Google Drive!");
 
-tambahGaleri(namaUser,imageData);
+    })
+    .catch(error => {
 
-// simpan local storage
+      console.log(error);
 
-let dataLama =
-JSON.parse(localStorage.getItem("kenangan")) || [];
+      alert("❌ Upload gagal!");
 
-dataLama.unshift({
+    });
 
-nama:namaUser,
-foto:imageData
+  };
 
-});
-
-localStorage.setItem(
-"kenangan",
-JSON.stringify(dataLama)
-);
-
-// upload ke Google Drive
-
-fetch("https://script.google.com/macros/s/AKfycbzYwXFc5ArLqKo5tILACb2bj5b4i0cSnWJjh4bjhu3Ps8hGlG92wbfKPSuqx0eniY4x/exec",{
-
-method:"POST",
-
-mode:"no-cors",
-
-headers:{
-"Content-Type":"application/json"
-},
-
-body:JSON.stringify({
-
-nama:namaUser,
-file:imageData
-
-})
-
-})
-.then(() => {
-
-alert("📢 Upload berhasil masuk Google Drive!");
-
-})
-.catch(err => {
-
-console.log(err);
-
-alert("Upload gagal!");
-
-});
-
-}; // <-- penting
-
-reader.readAsDataURL(file);
+  reader.readAsDataURL(file);
 
 }
+
 </script>
 
 </body>
